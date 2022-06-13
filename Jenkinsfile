@@ -39,7 +39,7 @@ pipeline {
         stage('Pushing to ECR') {
             steps{
                 script {
-                    sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 020361875850.dkr.ecr.ap-south-1.amazonaws.com'
+                    sh 'aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 020361875850.dkr.ecr.ap-south-1.amazonaws.com'
                     sh 'docker push 020361875850.dkr.ecr.ap-south-1.amazonaws.com/geolocation_ecr_rep:latest'
                 }
             }
