@@ -1,34 +1,23 @@
 pipeline {
-
     agent any
     tools{
         maven 'M2_HOME'
     }
-    triggers {
-  pollSCM '* * * * *'
-}
-
     stages {
-         stage('maven package') {
-            steps {
-                sh 'mvn clean'
-                sh 'mvn install'
-                sh 'mvn package'
+        stage('Checkout'){
+            steps{
+                git branch: 'main', url: 'https://github.com/Hermann90/geolocation.git'
             }
         }
-         stage('test') {
+        stage('Code Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Test') {
             steps {
                 sh 'mvn test'
             }
         }
-       
-         stage('deploy') {
-            steps {
-                echo 'deploy'
-
-            }
-        }
     }
-
- }
-
+}
