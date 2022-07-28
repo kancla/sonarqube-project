@@ -38,21 +38,10 @@ pipeline {
         stage('Pushing to ECR') {
             steps{
                 script {
-                    sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 020361875850.dkr.ecr.us-east-1.amazonaws.com/geolocation_ecr_rep // Building Docker images
-        stage('Building image') {
-            steps{
-                script {
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
-                }
-            }
-        }
-         // Uploading Docker images into AWS ECR
-        stage('Pushing to ECR') {
-            steps{
-                script {
-                    sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 020361875850.dkr.ecr.us-east-1.amazonaws.com/geolocation_ecr_rep'
+                    sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 020361875850.dkr.ecr.us-east-1.amazonaws.com'
+                    sh 'docker build -t geolocation_ecr_rep'
+                    sh 'docker tag geolocation_ecr_rep:latest 020361875850.dkr.ecr.us-east-1.amazonaws.com/geolocation_ecr_rep:latest'
                     sh 'docker push 020361875850.dkr.ecr.us-east-1.amazonaws.com/geolocation_ecr_rep:latest'
                 }
             }
-        }            
-        
+        }
